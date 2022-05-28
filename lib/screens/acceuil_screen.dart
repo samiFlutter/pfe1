@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pfe/screens/inscrir_screen.dart';
 
 class AcceuilScreen extends StatelessWidget {
   static const String screenRoute = 'acceuil_screen';
@@ -23,10 +24,10 @@ class AcceuilScreen extends StatelessWidget {
                   color: Colors.blue,
                   child: Text('Inscrir'),
                   onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => InscrirScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const InscrirScreen()));
                   },
                 ),
                 FlatButton(
