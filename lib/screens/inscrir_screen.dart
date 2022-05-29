@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,6 +13,9 @@ class InscrirScreen extends StatefulWidget {
 }
 
 class _InscrirScreenState extends State<InscrirScreen> {
+  
+
+  
 //text editing controller variables
   final nniController = TextEditingController();
   final nomController = TextEditingController();
@@ -40,27 +44,27 @@ class _InscrirScreenState extends State<InscrirScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              My_ListTile(
+               My_ListTile(
                 controller: nniController,
                 text_var: 'Saisir votre NNI',
               ),
               const SizedBox(height: 20),
-              My_ListTile(
+               My_ListTile(
                 controller: nomController,
                 text_var: 'Saisir votre nom',
               ),
               const SizedBox(height: 20),
-              My_ListTile(
+               My_ListTile(
                 controller: prenomController,
                 text_var: 'Saisir votre prenom',
               ),
               const SizedBox(height: 20),
-              My_ListTile(
+               My_ListTile(
                 controller: lieuController,
                 text_var: 'Saisir votre Lieu de naissance',
               ),
               const SizedBox(height: 20),
-              My_ListTile(
+               My_ListTile(
                 controller: sexeController,
                 text_var: 'Saisir votre sexe',
               ),
@@ -70,7 +74,13 @@ class _InscrirScreenState extends State<InscrirScreen> {
                 borderRadius: BorderRadius.circular(15),
                 child: MaterialButton(
                   onPressed: () {
-                    
+                    FirebaseFirestore.instance.collection('bdvote').add({
+                            'NNI': nniController.value.text,
+                            'Nom': nomController.value.text,
+                            'Prenom': prenomController.value.text,
+                            'Lieu naissance': lieuController.value.text,
+                            'Sexe': sexeController.value.text,
+                          });
                     Navigator.pop(context);
                     CoolAlert.show(
                       type: CoolAlertType.success,
@@ -100,6 +110,8 @@ class _InscrirScreenState extends State<InscrirScreen> {
 
 //because we have 4 list tiles we need to create a class for each one
 class My_ListTile extends Widget {
+  var validator = true;
+  final _formKey = GlobalKey<FormState>();
   TextEditingController controller;
   String? text_var;
   My_ListTile({Key? key, required this.controller, this.text_var})
