@@ -1,3 +1,5 @@
+
+// https://www.youtube.com/watch?v=0aX_osJdOz4
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,24 +17,41 @@ class Pagenni extends StatefulWidget {
 class _PagenniState extends State<Pagenni> {
   final nniController = TextEditingController();
   bool nni_deja_existe = false;
-
-//   // Create a reference to the cities collection
+  late CollectionReference electeurs;
+//   // Create a reference to the cities collections
 // final citiesRef = db.collection("cities");
 
 // // Create a query against the collection.
 // final query = citiesRef.where("state", isEqualTo: "CA");
 //   //chercher une doc dans firestore
   Future<bool> chercher_nni(String nni) async {
-    print(nni);
-    var electeurs = await FirebaseFirestore.instance.collection('bdvote');
-    Stream<dynamic> test = await electeurs.doc().snapshots();
-    print("test length is  " + test.length.toString());
-    
-    if (electeurs != null) {
-      return true;
-    } else {
-      return false;
-    }
+    electeurs = await FirebaseFirestore.instance.collection('bdvote');
+
+    StreamBuilder<QuerySnapshot>(
+        stream: electeurs.snapshots().asBroadcastStream(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            print("pas de donne pour la collection ");
+            return Container();
+          } else {
+            ListView(
+              children: [
+                ...snapshot.data!.docs
+                    .where((QueryDocumentSnapshot<Object?> element) =>
+                        element['NNI']
+                            .toString()
+                            .toLowerCase()
+                            .contains(nni.toString().toLowerCase()))
+                    .map((QueryDocumentSnapshot<Object?> data) {
+
+                    })
+              ],
+            );
+            return Container();
+          }
+        });
+
+    return false;
   }
 
   @override
