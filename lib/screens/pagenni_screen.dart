@@ -27,29 +27,29 @@ class _PagenniState extends State<Pagenni> {
   Future<bool> chercher_nni(String nni) async {
     electeurs = await FirebaseFirestore.instance.collection('bdvote');
 
-    StreamBuilder<QuerySnapshot>(
-        stream: electeurs.snapshots().asBroadcastStream(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            print("pas de donne pour la collection ");
-            return Container();
-          } else {
-            ListView(
-              children: [
-                ...snapshot.data!.docs
-                    .where((QueryDocumentSnapshot<Object?> element) =>
-                        element['NNI']
-                            .toString()
-                            .toLowerCase()
-                            .contains(nni.toString().toLowerCase()))
-                    .map((QueryDocumentSnapshot<Object?> data) {
+    // StreamBuilder<QuerySnapshot>(
+    //     stream: electeurs.snapshots().asBroadcastStream(),
+    //     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    //       if (!snapshot.hasData) {
+    //         print("pas de donne pour la collection ");
+    //         return Container();
+    //       } else {
+    //         ListView(
+    //           children: [
+    //             ...snapshot.data!.docs
+    //                 .where((QueryDocumentSnapshot<Object?> element) =>
+    //                     element['NNI']
+    //                         .toString()
+    //                         .toLowerCase()
+    //                         .contains(nni.toString().toLowerCase()))
+    //                 .map((QueryDocumentSnapshot<Object?> data) {
 
-                    })
-              ],
-            );
-            return Container();
-          }
-        });
+    //                 })
+    //           ],
+    //         );
+    //         return Container();
+    //       }
+    //     });
 
     return false;
   }
